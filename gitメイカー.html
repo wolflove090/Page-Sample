@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>GIF作成アプリ</title>
+</head>
+<body>
+  <h1>GIF作成アプリ</h1>
+  <input type="file" id="imageInput" accept="image/*" />
+  <canvas id="canvas" width="400" height="300"></canvas>
+  <button id="generateBtn">GIFを生成</button>
+  <div id="output"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let image = new Image();
+
+    document.getElementById('imageInput').addEventListener('change', function (e) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        image.src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', function () {
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: canvas.width,
+        height: canvas.height,
+      });
+
+      const frames = 30;
+      for (let i = 0; i < frames; i++) {
+        const t = i / (frames - 1);
+        const eased = easeInOutQuad(t);
+        const offsetX = (canvas.width - image.width) * eased;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, offsetX, 0);
+        gif.addFrame(ctx, {copy: true, delay: 33});
+      }
+
+      gif.on('finished', function (blob) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(blob);
+        document.getElementById('output').innerHTML = '';
+        document.getElementById('output').appendChild(img);
+      });
+
+      gif.render();
+    });
+
+    function easeInOutQuad(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+  </script>
+</body>
+</html>
