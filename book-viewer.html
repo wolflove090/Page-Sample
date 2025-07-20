@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>絵本閲覧</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fefefe;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #book-view {
+      display: flex;
+      flex-direction: row;
+      width: 100vw;
+      height: 100vh;
+      gap: 0;
+    }
+    .page {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+    }
+    .page img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      padding: 0;
+      margin: 0;
+    }
+
+    @media (orientation: portrait) {
+      #book-view {
+        flex-direction: column;
+      }
+      .page {
+        height: 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="book-view">
+    <div class="page" id="left-page"></div>
+    <div class="page" id="right-page"></div>
+  </div>
+
+  <audio id="page-sound" src="./assets/sounds/page-turn.mp3" preload="auto"></audio>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const bookDir = params.get("book") || "book1";
+    const imageBasePath = `./books/${bookDir}/`;
+  
+    let currentSpread = 0;
+    const leftPage = document.getElementById('left-page');
+    const rightPage = document.getElementById('right-page');
+    const pageSound = document.getElementById('page-sound');
+  
+    // 画像パス構築
+    const images = {
+      cover: `${imageBasePath}00.png`,
+      spreads: []
+    };
+
+    let totalSpreads = 0;
+    fetch(`${imageBasePath}pages.json`)
+      .then(res => res.json())
+      .then(data => {
+        totalSpreads = data.spreadCount;
+        for (let i = 1; i <= totalSpreads; i++) {
+          const a = `${imageBasePath}${String(i).padStart(2, '0')}-a.png`;
+          const b = `${imageBasePath}${String(i).padStart(2, '0')}-b.png`;
+          images.spreads.push({ left: a, right: b });
+        }
+        updateView();
+      });
+  
+    const preloadImage = (src) => {
+      const img = new Image();
+      img.src = src;
+    };
+  
+    preloadImage(images.cover);
+  
+    function updateView() {
+      leftPage.innerHTML = '';
+      rightPage.innerHTML = '';
+  
+      if (currentSpread === 0) {
+        rightPage.innerHTML = `<img src="${images.cover}" alt="cover">`;
+      } else {
+        const spread = images.spreads[currentSpread - 1];
+        leftPage.innerHTML = `<img src="${spread.left}" alt="left page">`;
+        rightPage.innerHTML = `<img src="${spread.right}" alt="right page">`;
+      }
+    }
+  
+    function playSound() {
+      pageSound.currentTime = 0;
+      pageSound.play();
+    }
+  
+    leftPage.onclick = () => {
+      if (currentSpread > 0) {
+        currentSpread--;
+        updateView();
+        playSound();
+      }
+    };
+  
+    rightPage.onclick = () => {
+      if (currentSpread < totalSpreads) {
+        currentSpread++;
+        updateView();
+        playSound();
+      } else {
+        location.href = "./books.html"; // 一覧画面に戻る
+      }
+    };
+  
+  </script>
+  
+</body>
+</html>
