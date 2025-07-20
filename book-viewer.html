@@ -76,10 +76,13 @@
       .then(res => res.json())
       .then(data => {
         totalSpreads = data.spreadCount;
+        preloadImage(images.cover);
         for (let i = 1; i <= totalSpreads; i++) {
           const a = `${imageBasePath}${String(i).padStart(2, '0')}-a.png`;
           const b = `${imageBasePath}${String(i).padStart(2, '0')}-b.png`;
           images.spreads.push({ left: a, right: b });
+          preloadImage(a);
+          preloadImage(b);
         }
         updateView();
       });
@@ -88,8 +91,6 @@
       const img = new Image();
       img.src = src;
     };
-  
-    preloadImage(images.cover);
   
     function updateView() {
       leftPage.innerHTML = '';
@@ -123,7 +124,7 @@
         updateView();
         playSound();
       } else {
-        location.href = "./books.html"; // 一覧画面に戻る
+        location.href = "./index.html";
       }
     };
   
