@@ -39,16 +39,33 @@
     }
 
     @media (orientation: portrait) {
+      #orientation-warning {
+        display: flex;
+      }
       #book-view {
-        flex-direction: column;
+        display: none;
       }
-      .page {
-        height: 50%;
-      }
+    }
+
+    #orientation-warning {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000000dd;
+      color: white;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+  <div id="orientation-warning">スマホを横向きにしてください</div>
   <div id="book-view">
     <div class="page" id="left-page"></div>
     <div class="page" id="right-page"></div>
