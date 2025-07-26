@@ -13,61 +13,10 @@
   <meta name="apple-mobile-web-app-title" content="絵本アプリ">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <meta name="apple-mobile-web-app-orientation" content="landscape">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      font-family: sans-serif;
-    }
-    h1 {
-      text-align: center;
-      padding: 1em;
-    }
-    #book-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      padding: 16px;
-    }
-    .book {
-      cursor: pointer;
-      border: 1px solid #ddd;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-    .book:hover {
-      transform: scale(1.05);
-    }
-    .book img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    @media (orientation: portrait) {
-      #book-list {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      }
-    }
-  </style>
 </head>
 <body>
   <h1>絵本一覧</h1>
   <div id="book-list"></div>
-
-  <script>
-    const books = ["01.Nyoki", "02.NamakoRobo", "03.GamingObake", "04.YummyGohan", "05.TakoPai"]; // 必要に応じて追加
-    const bookList = document.getElementById("book-list");
-
-    books.forEach(book => {
-      const div = document.createElement("div");
-      div.className = "book";
-      div.innerHTML = `<img src="./books/${book}/00.png" alt="${book} 表紙">`;
-      div.onclick = () => {
-        location.href = `./book-viewer.html?book=${book}`;
-      };
-      bookList.appendChild(div);
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
