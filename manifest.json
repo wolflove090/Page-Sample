@@ -1,19 +1,19 @@
 {
     "name": "絵本アプリ",
     "short_name": "絵本",
-    "start_url": "index.html",
+    "start_url": "/Page-Sample/",
     "display": "standalone",
     "orientation": "landscape",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
     "icons": [
       {
-        "src": "icons/icon-192.png",
+        "src": "/Page-Sample/icons/icon-192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "icons/icon-512.png",
+        "src": "/Page-Sample/icons/icon-512.png",
         "sizes": "512x512",
         "type": "image/png"
       }
