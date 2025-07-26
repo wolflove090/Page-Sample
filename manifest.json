@@ -2,7 +2,7 @@
     "name": "PWAテスト",
     "short_name": "PWA",
     "start_url": "/",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "landscape",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
