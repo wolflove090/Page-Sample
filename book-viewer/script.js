@@ -66,6 +66,6 @@ rightPage.onclick = () => {
     updateView();
     playSound();
   } else {
-    location.href = "./index.html";
+    location.href = "../index.html";
   }
 };

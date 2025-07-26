@@ -7,7 +7,7 @@ books.forEach(book => {
   div.className = "book";
   div.innerHTML = `<img src="./books/${book}/00.png" alt="${book} 表紙">`;
   div.onclick = () => {
-    location.href = `./book-viewer.html?book=${book}`;
+    location.href = `./book-viewer/book-viewer.html?book=${book}`;
   };
   bookList.appendChild(div);
 });
