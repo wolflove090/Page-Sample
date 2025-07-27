@@ -1,6 +1,6 @@
 const params = new URLSearchParams(location.search);
 const bookDir = params.get("book") || "book1";
-const imageBasePath = `./books/${bookDir}/`;
+const imageBasePath = `../books/${bookDir}/`;
 
 let currentSpread = 0;
 const leftPage = document.getElementById('left-page');
@@ -29,11 +29,13 @@ fetch(`${imageBasePath}pages.json`)
     updateView();
   });
 
+// 画像のプリロード
 const preloadImage = (src) => {
   const img = new Image();
   img.src = src;
 };
 
+// 画面更新
 function updateView() {
   leftPage.innerHTML = '';
   rightPage.innerHTML = '';
@@ -47,11 +49,13 @@ function updateView() {
   }
 }
 
+// ページめくり音
 function playSound() {
   pageSound.currentTime = 0;
   pageSound.play();
 }
 
+// 前のページへ戻る
 leftPage.onclick = () => {
   if (currentSpread > 0) {
     currentSpread--;
@@ -60,6 +64,7 @@ leftPage.onclick = () => {
   }
 };
 
+// 次のページへ進む
 rightPage.onclick = () => {
   if (currentSpread < totalSpreads) {
     currentSpread++;
